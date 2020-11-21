@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Bom">
+          <Key>
+            <PropertyRef Name="__id" />
+          </Key>
+          <Property Name="__id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentConfigIndex" Type="int" />
+          <Property Name="ChildConfigIndex" Type="int" />
+          <Property Name="Qty" Type="float" />
+          <Property Name="Excluded" Type="bit" />
+          <Property Name="Suppressed" Type="bit" />
+        </EntityType>
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="__id" />
+          </Key>
+          <Property Name="__id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" />
+          <Property Name="PartNo" Type="nvarchar(max)" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Revision" Type="nvarchar(max)" />
+          <Property Name="FilePath" Type="nvarchar(max)" />
+          <Property Name="ConfigurationName" Type="nvarchar(max)" />
+          <Property Name="BomPartNumber" Type="nvarchar(max)" />
+          <Property Name="IsActive" Type="bit" />
+          <Property Name="IsRoot" Type="bit" />
+          <Property Name="Preview" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Publish">
+          <Key>
+            <PropertyRef Name="__id" />
+          </Key>
+          <Property Name="__id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ParentConfigIndex" Type="int" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Content" Type="varbinary(max)" />
+        </EntityType>
+        <EntityContainer Name="DataModelStoreContainer">
+          <EntitySet Name="Bom" EntityType="Self.Bom" Schema="2123__637328370661132736__SolidWorksNative" store:Type="Tables" />
+          <EntitySet Name="Configuration" EntityType="Self.Configuration" Schema="2123__637328370661132736__SolidWorksNative" store:Type="Tables" />
+          <EntitySet Name="Publish" EntityType="Self.Publish" Schema="2123__637328370661132736__SolidWorksNative" store:Type="Tables" />
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Bom">
+          <Key>
+            <PropertyRef Name="C__id" />
+          </Key>
+          <Property Name="C__id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentConfigIndex" Type="Int32" />
+          <Property Name="ChildConfigIndex" Type="Int32" />
+          <Property Name="Qty" Type="Double" />
+          <Property Name="Excluded" Type="Boolean" />
+          <Property Name="Suppressed" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="Configuration">
+          <Key>
+            <PropertyRef Name="C__id" />
+          </Key>
+          <Property Name="C__id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="Int32" />
+          <Property Name="PartNo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Revision" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FilePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ConfigurationName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="BomPartNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IsActive" Type="Boolean" />
+          <Property Name="IsRoot" Type="Boolean" />
+          <Property Name="Preview" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Publish">
+          <Key>
+            <PropertyRef Name="C__id" />
+          </Key>
+          <Property Name="C__id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ParentConfigIndex" Type="Int32" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Content" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityContainer Name="DataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Boms" EntityType="Self.Bom" />
+          <EntitySet Name="Configurations" EntityType="Self.Configuration" />
+          <EntitySet Name="Publishes" EntityType="Self.Publish" />
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DataModelStoreContainer" CdmEntityContainer="DataEntities">
+          <EntitySetMapping Name="Boms">
+            <EntityTypeMapping TypeName="DataModel.Bom">
+              <MappingFragment StoreEntitySet="Bom">
+                <ScalarProperty Name="C__id" ColumnName="__id" />
+                <ScalarProperty Name="ParentConfigIndex" ColumnName="ParentConfigIndex" />
+                <ScalarProperty Name="ChildConfigIndex" ColumnName="ChildConfigIndex" />
+                <ScalarProperty Name="Qty" ColumnName="Qty" />
+                <ScalarProperty Name="Excluded" ColumnName="Excluded" />
+                <ScalarProperty Name="Suppressed" ColumnName="Suppressed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Configurations">
+            <EntityTypeMapping TypeName="DataModel.Configuration">
+              <MappingFragment StoreEntitySet="Configuration">
+                <ScalarProperty Name="C__id" ColumnName="__id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="PartNo" ColumnName="PartNo" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Revision" ColumnName="Revision" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="ConfigurationName" ColumnName="ConfigurationName" />
+                <ScalarProperty Name="BomPartNumber" ColumnName="BomPartNumber" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+                <ScalarProperty Name="IsRoot" ColumnName="IsRoot" />
+                <ScalarProperty Name="Preview" ColumnName="Preview" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Publishes">
+            <EntityTypeMapping TypeName="DataModel.Publish">
+              <MappingFragment StoreEntitySet="Publish">
+                <ScalarProperty Name="C__id" ColumnName="__id" />
+                <ScalarProperty Name="ParentConfigIndex" ColumnName="ParentConfigIndex" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
