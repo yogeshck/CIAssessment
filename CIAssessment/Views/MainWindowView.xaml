@@ -9,19 +9,15 @@
     <Grid>
         <WrapPanel HorizontalAlignment="Center">
             <StackPanel  Margin="200,20,20,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                <RadioButton Content="Part Number" HorizontalAlignment="Stretch" Margin="0,0,20,0"/>
-                <RadioButton Content="File Names" HorizontalAlignment="Stretch" Margin="130,0,0,0"/>
+                <RadioButton Content="{Binding PartRadioLbl}" HorizontalAlignment="Stretch" Margin="0,0,20,0"/>
+                <RadioButton Content="{Binding FileRadioLbl}" HorizontalAlignment="Stretch" Margin="130,0,0,0"/>
             </StackPanel>
-            <TabControl Margin="10" Height="376" Width="766">
-                <TabItem Header="General">
-
-                </TabItem>
-                <TabItem Header="Security">
-
-                </TabItem>
-                <TabItem Header="Details">
-
-                </TabItem>
+            <TabControl ItemsSource="{Binding TabSource}" Margin="10" Height="376" Width="766">
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Header}"/>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
             </TabControl>
         </WrapPanel>
     </Grid>

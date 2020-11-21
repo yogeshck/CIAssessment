@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Windows;
 
 namespace CIAssessment.Helpers
 {
@@ -10,33 +11,28 @@ namespace CIAssessment.Helpers
     /// </summary>
     public abstract class PropertyChangeHelper : INotifyPropertyChanged
     {
-        #region EventHandler
         public event PropertyChangedEventHandler PropertyChanged;
-        #endregion
 
         #region Public Methods
+
         public void RaisePropertyChanged<T>(Expression<Func<T>> property)
         {
-            var name = GetMemberInfo(property).Name;
-            OnPropertyChanged(name);
+            var propertyName = GetMemberInfo(property).Name;
+            OnPropertyRaised(propertyName);
         }
         #endregion
 
         #region Private Methods
-        private void OnPropertyChanged(string propertyName)
+
+        private void OnPropertyRaised(string propertyname)
         {
-            VerifyPropertyName(propertyName);
-            var handler = PropertyChanged;
-            handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyname));
+            }
         }
 
-        private void VerifyPropertyName(string propertyName)
-        {
-            if (TypeDescriptor.GetProperties(this)[propertyName] == null)
-                throw new ArgumentNullException(GetType().Name + " does not contain property: " + propertyName);
-        }
-
-        private MemberInfo GetMemberInfo(Expression expression)
+        private MemberInfo GetMemberInfo(System.Linq.Expressions.Expression expression)
         {
             MemberExpression operand;
             LambdaExpression lambdaExpression = (LambdaExpression)expression;

@@ -1,4 +1,5 @@
 ﻿using CIAssessment.Helpers;
+using CIAssessment.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace CIAssessment.ViewModels.Helper
         {
             _busyLock = new object();
             _lastActivityTime = DateTime.Now;
+
+            RepositoryService = new RepositoryService();
         }
         #endregion
 
@@ -59,6 +62,7 @@ namespace CIAssessment.ViewModels.Helper
         private static DateTime _lastActivityTime;
         private static bool _activityTimer = false;
         protected static bool _loginPage = false;
+        protected readonly IRepositoryService RepositoryService;
         #endregion
     }
 }

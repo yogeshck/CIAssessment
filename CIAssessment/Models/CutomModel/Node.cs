@@ -19,7 +19,7 @@ namespace CIAssessment.Models.CutomModel
         public bool IsRoot { get; set;}
         public bool IsActive { get; set;}
         public string FileName { get; set; }
-        public string FilePath { get; set; }
+        public string AbsolutePath { get; set; }
         public string PartNumber { get; set; }
         public string BomPartNumber { get; set; }
         public string Revision { get; set; }
@@ -28,10 +28,5 @@ namespace CIAssessment.Models.CutomModel
 
         public Node ParentNode { get; set; }
         public List<Node> ChildNodes { get; set; }
-
-        public string AbsolutePath
-        {
-            get { return $"{FilePath}{Path.DirectorySeparatorChar}{FileName}"; }
-        }
     }
 }

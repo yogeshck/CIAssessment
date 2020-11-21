@@ -97,6 +97,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Helpers\ConvertEntities.cs" />
     <Compile Include="Helpers\PropertyChangeHelper.cs" />
     <Compile Include="Models\Bom.cs">
       <DependentUpon>__Assessment__.tt</DependentUpon>
@@ -106,6 +107,7 @@
     </Compile>
     <Compile Include="Models\CutomModel\Node.cs" />
     <Compile Include="Models\CutomModel\NodeExtension.cs" />
+    <Compile Include="Models\CutomModel\TabItem.cs" />
     <Compile Include="Models\Publish.cs">
       <DependentUpon>__Assessment__.tt</DependentUpon>
     </Compile>
@@ -128,7 +130,6 @@
     <Compile Include="Repository\RepositoryService.cs" />
     <Compile Include="ViewModels\Base\MainWindowViewModel.cs" />
     <Compile Include="ViewModels\Helper\ViewModelBase.cs" />
-    <Compile Include="ViewModels\Helper\ViewModelLocator.cs" />
     <Compile Include="Views\MainWindowView.xaml.cs">
       <DependentUpon>MainWindowView.xaml</DependentUpon>
       <SubType>Code</SubType>

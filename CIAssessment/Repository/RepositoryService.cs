@@ -1,4 +1,5 @@
 ﻿using CIAssessment.Models;
+using CIAssessment.Models.CutomModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,13 @@ namespace CIAssessment.Repository
                 dataContext = datacontext;
         }
 
-
+        public List<TabItem> GetRootAssemblies()
+        {
+            var items = (from c in dataContext.Configurations
+                         where c.IsRoot.HasValue && c.IsRoot.Value && !string.IsNullOrEmpty(c.ConfigurationName)
+                         orderby c.Id descending
+                         select new TabItem { Header = c.ConfigurationName }).ToList();
+            return items;
+        }
     }
 }

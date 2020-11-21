@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CIAssessment.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,13 @@ namespace CIAssessment.Views
         public MainWindowView()
         {
             InitializeComponent();
+            this.DataContext = new MainWindowViewModel();
+        }
+
+        protected override void OnActivated(EventArgs e)
+        {
+            base.OnActivated(e);
+            ((MainWindowViewModel)DataContext).InitializeAsync(e);
         }
     }
 }
