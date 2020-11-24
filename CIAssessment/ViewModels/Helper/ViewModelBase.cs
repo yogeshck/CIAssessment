@@ -13,38 +13,11 @@ namespace CIAssessment.ViewModels.Helper
         #region Constructor
         public ViewModelBase()
         {
-            _busyLock = new object();
-            _lastActivityTime = DateTime.Now;
-
             RepositoryService = new RepositoryService();
         }
         #endregion
 
         #region Command Processing
-        public virtual Task InitializeAsync(object navigationData)
-        {
-            return Task.FromResult(false);
-        }
-
-        public virtual Task PoppedAsync(object navigationData)
-        {
-            return Task.FromResult(false);
-        }
-
-        public bool SystemIsIdle()
-        {
-            bool isIdle = true;
-            lock (_busyLock)
-            {
-                if (IsBusy)
-                    isIdle = false;
-                else
-                    IsBusy = true;
-            }
-
-            _lastActivityTime = DateTime.Now;
-            return isIdle;
-        }
         #endregion
 
         #region Properties
@@ -57,11 +30,6 @@ namespace CIAssessment.ViewModels.Helper
 
         #region Private Members
         private bool _isBusy;
-        private object _busyLock;
-
-        private static DateTime _lastActivityTime;
-        private static bool _activityTimer = false;
-        protected static bool _loginPage = false;
         protected readonly IRepositoryService RepositoryService;
         #endregion
     }

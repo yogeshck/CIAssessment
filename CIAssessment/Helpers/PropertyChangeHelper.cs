@@ -24,7 +24,7 @@ namespace CIAssessment.Helpers
 
         #region Private Methods
 
-        private void OnPropertyRaised(string propertyname)
+        protected void OnPropertyRaised(string propertyname)
         {
             if (PropertyChanged != null)
             {

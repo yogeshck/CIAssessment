@@ -4,21 +4,146 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CIAssessment"
+        xmlns:c="clr-namespace:CIAssessment.Converter"
+        xmlns:self="clr-namespace:CIAssessment.Models.CutomModel"
+        xmlns:vm="clr-namespace:CIAssessment.ViewModels"
         mc:Ignorable="d"
-        Title="Hierarchical Data Viewer" VerticalAlignment="Center" Height="450" Width="800" WindowStyle="ToolWindow" ResizeMode="NoResize" SizeToContent="Height" WindowStartupLocation="CenterScreen" Cursor="Arrow">
-    <Grid>
-        <WrapPanel HorizontalAlignment="Center">
-            <StackPanel  Margin="200,20,20,5" Orientation="Horizontal" HorizontalAlignment="Center">
-                <RadioButton Content="{Binding PartRadioLbl}" HorizontalAlignment="Stretch" Margin="0,0,20,0"/>
-                <RadioButton Content="{Binding FileRadioLbl}" HorizontalAlignment="Stretch" Margin="130,0,0,0"/>
-            </StackPanel>
-            <TabControl ItemsSource="{Binding TabSource}" Margin="10" Height="376" Width="766">
-                <TabControl.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Header}"/>
-                    </DataTemplate>
-                </TabControl.ItemTemplate>
-            </TabControl>
-        </WrapPanel>
+        x:Name="window"
+        Title="Hierarchical Data Viewer" TextBlock.TextAlignment="Center" VerticalAlignment="Center" ResizeMode="CanResize" SizeToContent="Height" WindowStartupLocation="CenterScreen" Cursor="Arrow" Width="500" Height="600" WindowStyle="ThreeDBorderWindow" Background="AntiqueWhite">
+    <Window.DataContext>
+        <vm:MainWindowViewModel/>
+    </Window.DataContext>
+    <Grid x:Name="_grid" Background="AliceBlue">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Background="AliceBlue">
+            <RadioButton Content="{Binding PartRadioLbl}" HorizontalAlignment="Stretch" Margin="10" IsChecked="{Binding IsPartVisible,Mode=TwoWay}"/>
+            <RadioButton Content="{Binding FileRadioLbl}" HorizontalAlignment="Stretch" Margin="10" IsChecked="{Binding IsFileVisible,Mode=TwoWay}"/>
+        </StackPanel>
+        <TabControl x:Name="tabs" ItemsSource="{Binding TabSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Column="0" Grid.Row="1" SelectedItem="{Binding SelectedTab}" Background="Blue">
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Header}"/>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <Grid Grid.IsSharedSizeScope="True" Background="White">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TreeViewItem Grid.Row="0" BorderThickness="1" >
+                            <TreeViewItem.Header>
+                                <Grid Background="Blue">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition SharedSizeGroup="Task"/>
+                                        <!-- Placeholders for two columns of ToggleButton -->
+                                        <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                        <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                        <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                        <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                        <ColumnDefinition SharedSizeGroup="Duration"/>
+                                        <ColumnDefinition SharedSizeGroup="Duration"/>
+                                        <ColumnDefinition SharedSizeGroup="Notes"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" Text="Assembly" Foreground="White" Background="Blue"/>
+                                    <!-- Empty TreeViewItem to measure the size of its ToggleButton into the "Toggle" group-->
+                                    <TreeViewItem Grid.Column="1" Padding="0" Foreground="White" Background="Blue"/>
+                                    <TextBlock Grid.Column="2" Text="" Foreground="White" Background="Blue"/>
+                                    <TextBlock Grid.Column="3" Text="" Foreground="White" Background="Blue"/>
+                                    <TextBlock Grid.Column="4" Text="" Foreground="White" Background="Blue"/>
+                                    <TextBlock Grid.Column="5" Text="Quantity" Foreground="White" Background="Blue"/>
+                                    <TextBlock Grid.Column="7" Text="Description" Foreground="White" Background="Blue"/>
+                                </Grid>
+                            </TreeViewItem.Header>
+                        </TreeViewItem>
+                        <TreeView Grid.Row="1" ItemsSource="{Binding Content.ChildNodes}">
+                            <TreeView.ItemContainerStyle>
+                                <Style TargetType="{x:Type TreeViewItem}">
+                                    <Setter Property="IsExpanded" Value="True"/>
+                                </Style>
+                            </TreeView.ItemContainerStyle>
+                            <TreeView.ItemTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type self:Node}" ItemsSource="{Binding ChildNodes}">
+                                    <Grid >
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition SharedSizeGroup="Task"/>
+                                            <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                            <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                            <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                            <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                            <ColumnDefinition SharedSizeGroup="Duration"/>
+                                            <ColumnDefinition SharedSizeGroup="Duration"/>
+                                            <ColumnDefinition SharedSizeGroup="Notes"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding PartNumber}" Visibility="{Binding IsPart,Mode=TwoWay}" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding FileName}" Visibility="{Binding IsFile,Mode=TwoWay}" Grid.Column="0"/>
+                                        <TextBlock Text="{Binding Quantity}" Grid.Column="5"/>
+                                        <TextBlock Text="{Binding Description}" Grid.Column="7"/>
+                                    </Grid>
+                                    <HierarchicalDataTemplate.ItemTemplate>
+                                        <HierarchicalDataTemplate DataType="{x:Type self:Node}" ItemsSource="{Binding ChildNodes}">
+                                            <Grid >
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition SharedSizeGroup="Task"/>
+                                                    <ColumnDefinition />
+                                                    <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                                    <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                                    <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                                    <ColumnDefinition SharedSizeGroup="Duration"/>
+                                                    <ColumnDefinition SharedSizeGroup="Duration"/>
+                                                    <ColumnDefinition SharedSizeGroup="Notes"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBlock Text="{Binding PartNumber}" Visibility="{Binding IsPart,Mode=TwoWay}" Grid.Column="0"/>
+                                                <TextBlock Text="{Binding FileName}" Visibility="{Binding IsFile,Mode=TwoWay}" Grid.Column="0"/>
+                                                <TextBlock Text="{Binding Quantity}" Grid.Column="5"/>
+                                                <TextBlock Text="{Binding Description}" Grid.Column="7"/>
+                                            </Grid>
+
+                                            <HierarchicalDataTemplate.ItemTemplate>
+                                                <HierarchicalDataTemplate DataType="{x:Type self:Node}" ItemsSource="{Binding ChildNodes}">
+                                                    <Grid >
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition SharedSizeGroup="Task"/>
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition />
+                                                            <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                                            <ColumnDefinition SharedSizeGroup="Toggle"/>
+                                                            <ColumnDefinition SharedSizeGroup="Duration"/>
+                                                            <ColumnDefinition SharedSizeGroup="Duration"/>
+                                                            <ColumnDefinition SharedSizeGroup="Notes"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <TextBlock Text="{Binding PartNumber}" Visibility="{Binding IsPart,Mode=TwoWay}" Grid.Column="0"/>
+                                                        <TextBlock Text="{Binding FileName}" Visibility="{Binding IsFile,Mode=TwoWay}" Grid.Column="0"/>
+                                                        <TextBlock Text="{Binding Quantity}" Grid.Column="5"/>
+                                                        <TextBlock Text="{Binding Description}" Grid.Column="7"/>
+                                                    </Grid>
+                                                </HierarchicalDataTemplate>
+                                            </HierarchicalDataTemplate.ItemTemplate>
+                                        </HierarchicalDataTemplate>
+                                    </HierarchicalDataTemplate.ItemTemplate>
+                                </HierarchicalDataTemplate>
+                            </TreeView.ItemTemplate>
+                        </TreeView>
+                    </Grid>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+        <StackPanel Grid.Row="2" Grid.Column="0">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1" Grid.Row="0" Height="30" Content="Export Json" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{Binding ExportJsonCommand}"/>
+            </Grid>
+        </StackPanel>
     </Grid>
 </Window>

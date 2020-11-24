@@ -6,6 +6,8 @@ namespace CIAssessment.Repository
 {
     public interface IRepositoryService
     {
-        List<TabItem> GetRootAssemblies();
+        List<TabItem> GetRootAssemblies(bool isPart=true);
+
+        void UpdateTabItemVisibilty(Node node,bool isPart=true,bool isFile= false);
     }
 }
