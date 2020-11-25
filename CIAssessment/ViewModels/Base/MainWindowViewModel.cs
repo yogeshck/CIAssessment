@@ -17,6 +17,8 @@ namespace CIAssessment.ViewModels
     {
 
         #region Command
+
+        // Command to Export Json
         public ICommand ExportJsonCommand => new RelayCommand(ExportJsonTask);
         #endregion
 

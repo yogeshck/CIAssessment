@@ -10,6 +10,9 @@ using System.Windows;
 
 namespace CIAssessment.Models.CutomModel
 {
+    /// <summary>
+    /// Custom Entity to represent the Data Model.
+    /// </summary>
     public class Node
     {
         #region Constructor

@@ -14,6 +14,7 @@ namespace CIAssessment.Helpers
 {
     public class ConvertEntities
     {
+        // Create Node form Entity
         public static Node GetNodeFromEntity(Configuration config,Bom bom =null,bool isPart = true)
         {
             if (config == null)
@@ -40,6 +41,7 @@ namespace CIAssessment.Helpers
             return node;
         }
 
+        // Add Bom information
         public static void AddBomInfo(Node node,Bom bom)
         {
             node.Quantity = 1;
@@ -55,12 +57,14 @@ namespace CIAssessment.Helpers
 
         }
 
+        // Add child information
         public static void AddChildNode(Node parent, Node Child)
         {
             parent.ChildNodes.Add(Child);
             Child.ParentNode = parent;
         }
 
+        // Update visibility for PArt or Filename
         public static Node UpdateNodeVisibility(Node node,bool isPart = true,bool isFile = false)
         {
             if (node == null)
@@ -77,6 +81,7 @@ namespace CIAssessment.Helpers
             return isVisible ? Visibility.Visible : Visibility.Hidden;
         }
 
+        // Create Json for selected assembly
         public static string GetJsonForNode(Node node)
         {
             var basedir = Directory.GetCurrentDirectory();

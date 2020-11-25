@@ -23,6 +23,7 @@ namespace CIAssessment.Repository
                 dataContext = datacontext;
         }
 
+        // Get the Root Assemblies
         public List<TabItem> GetRootAssemblies(bool isPart=true)
         {
             var items = new List<TabItem>();
@@ -52,6 +53,7 @@ namespace CIAssessment.Repository
             return items;
         }
 
+        // Update Visibility
         public void UpdateTabItemVisibilty(Node node, bool isPart = true,bool isFile=true)
         {
             if (node == null)
@@ -66,6 +68,7 @@ namespace CIAssessment.Repository
             ConvertEntities.UpdateNodeVisibility(node, isPart, isFile);
         }
 
+        // Load part's bom information
         private Node LoadData(Node parent, bool isPart = true)
         {
             if (parent == null)
