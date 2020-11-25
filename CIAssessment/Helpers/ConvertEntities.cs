@@ -77,7 +77,7 @@ namespace CIAssessment.Helpers
             return isVisible ? Visibility.Visible : Visibility.Hidden;
         }
 
-        public static void GetJsonForNode(Node node)
+        public static string GetJsonForNode(Node node)
         {
             var basedir = Directory.GetCurrentDirectory();
             var fileName = Path.GetFileNameWithoutExtension(node.FileName);
@@ -93,6 +93,8 @@ namespace CIAssessment.Helpers
                 JsonSerializer serializer = new JsonSerializer();
                 serializer.Serialize(file, node);
             }
+
+            return filepath;
         }
     }
 }

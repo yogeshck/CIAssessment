@@ -41,7 +41,14 @@ namespace CIAssessment.ViewModels
         #region Initialize
         public void Initialize()
         {
-            TabSource = new ObservableCollection<TabItem>(RepositoryService.GetRootAssemblies());
+            try
+            {
+                ClearMessage();
+                TabSource = new ObservableCollection<TabItem>(RepositoryService.GetRootAssemblies());
+            }catch(Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
         }
 
         #endregion
@@ -50,24 +57,42 @@ namespace CIAssessment.ViewModels
 
         private void SetPartNumberVisible(bool isPart)
         {
-            foreach(var tabItem in TabSource)
+            try
             {
-                RepositoryService.UpdateTabItemVisibilty(tabItem.Content, isPart, !isPart);
+                ClearMessage();
+                foreach (var tabItem in TabSource)
+                {
+                    RepositoryService.UpdateTabItemVisibilty(tabItem.Content, isPart, !isPart);
+                }
+                UpdateSelectedIndexTab();
             }
-            UpdateSelectedIndexTab();
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
         }
 
         private void SetFileNameVisible(bool isFile)
         {
-            foreach (var tabItem in TabSource)
+            try
             {
-                RepositoryService.UpdateTabItemVisibilty(tabItem.Content, !isFile, isFile);
+                ClearMessage();
+                foreach (var tabItem in TabSource)
+                {
+                    RepositoryService.UpdateTabItemVisibilty(tabItem.Content, !isFile, isFile);
+                }
+                UpdateSelectedIndexTab();
             }
-            UpdateSelectedIndexTab();
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+
         }
 
         private void UpdateSelectedIndexTab()
         {
+            ClearMessage();
             var temp = SelectedTab;
             SelectedTab = null;
             SelectedTab = temp;
@@ -75,7 +100,22 @@ namespace CIAssessment.ViewModels
 
         private void ExportJsonTask(object obj)
         {
-            ConvertEntities.GetJsonForNode(SelectedTab.Content);
+            try
+            {
+                ClearMessage();
+                var msg = ConvertEntities.GetJsonForNode(SelectedTab.Content);
+                SuccessMessage = $"Exported to location {msg}";
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+            }
+        }
+
+        private void ClearMessage()
+        {
+            ErrorMessage = string.Empty;
+            SuccessMessage = string.Empty;
         }
         #endregion
 
@@ -93,6 +133,24 @@ namespace CIAssessment.ViewModels
             set { _partRadioTxt = value; RaisePropertyChanged(() => PartRadioLbl); }
         }
 
+        public string ErrorMessage
+        {
+            get { return _error; }
+            set { _error = value; RaisePropertyChanged(() => ErrorMessage);
+                RaisePropertyChanged(() => IsErrorMessage);
+            }
+        }
+
+        public string SuccessMessage
+        {
+            get { return _success; }
+            set
+            {
+                _success = value; RaisePropertyChanged(() => SuccessMessage);
+                RaisePropertyChanged(() => IsSuccessMessage);
+            }
+        }
+
         public ObservableCollection<TabItem> TabSource
         {
             get { return _tabSource; }
@@ -108,7 +166,7 @@ namespace CIAssessment.ViewModels
         public TabItem SelectedTab
         {
             get { return _selectedTab; }
-            set { _selectedTab = value; RaisePropertyChanged(() => SelectedTab); }
+            set { _selectedTab = value; RaisePropertyChanged(() => SelectedTab); ClearMessage(); }
         }
 
         public ImageSource Image
@@ -154,6 +212,16 @@ namespace CIAssessment.ViewModels
             }
         }
 
+        public Visibility IsErrorMessage
+        {
+            get { return !string.IsNullOrEmpty(_error) ? Visibility.Visible: Visibility.Hidden; }
+        }
+
+        public Visibility IsSuccessMessage
+        {
+            get { return !string.IsNullOrEmpty(_success) ? Visibility.Visible : Visibility.Hidden; }
+        }
+
         #endregion
 
         #region Members
@@ -165,6 +233,8 @@ namespace CIAssessment.ViewModels
         private Node _selected;
         private bool _isPart;
         private bool _isFile;
+        private string _error;
+        private string _success;
         #endregion
     }
 }
