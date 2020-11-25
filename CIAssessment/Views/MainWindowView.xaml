@@ -10,9 +10,12 @@
         mc:Ignorable="d"
         x:Name="window"
         Title="Hierarchical Data Viewer" TextBlock.TextAlignment="Center" VerticalAlignment="Center" ResizeMode="CanResize" SizeToContent="Height" WindowStartupLocation="CenterScreen" Cursor="Arrow" Width="500" Height="600" WindowStyle="ThreeDBorderWindow" Background="#FF005DFF" Foreground="#FF005DFF" Margin="5">
+    <!-- Data Context binding -->
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
+    
+    <!-- Resources for Window-->
     <Window.Resources>
         <SolidColorBrush x:Key="RedBrush" Color="White"/>
 
@@ -73,16 +76,24 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
+        
+        <!-- Top Panel for Part and File name Radio-->
         <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Background="AliceBlue">
             <RadioButton Content="{Binding PartRadioLbl}" HorizontalAlignment="Stretch" Margin="10" IsChecked="{Binding IsPartVisible,Mode=TwoWay}" Background="White" BorderBrush="#FF0E16CB" Foreground="Black" BorderThickness="2" ClipToBounds="True" SnapsToDevicePixels="True"/>
             <RadioButton Content="{Binding FileRadioLbl}" HorizontalAlignment="Stretch" Margin="10" IsChecked="{Binding IsFileVisible,Mode=TwoWay}" Background="White" BorderBrush="#FF242BD0" Foreground="Black" BorderThickness="2"/>
         </StackPanel>
+        
+        <!-- Tabs for different Assembly-->
         <TabControl x:Name="tabs" ItemsSource="{Binding TabSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Column="0" Grid.Row="1" SelectedItem="{Binding SelectedTab}" Background="#FF008BFF" Foreground="#FF005DFF" BorderThickness="5" BorderBrush="Blue" >
+            
+            <!-- Header Template-->
             <TabControl.ItemTemplate>
                 <DataTemplate >
                     <TextBlock Text="{Binding Header}" />
                 </DataTemplate>
             </TabControl.ItemTemplate>
+            
+            <!-- Tab content -->
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <Grid Grid.IsSharedSizeScope="True" Background="White">
@@ -187,6 +198,8 @@
                 </DataTemplate>
             </TabControl.ContentTemplate>
         </TabControl>
+        
+        <!-- Bottom panel for Messages and Export Json-->
         <StackPanel Grid.Row="2" Grid.Column="0">
             <Grid>
                 <Grid.ColumnDefinitions>
