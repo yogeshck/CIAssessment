@@ -9,7 +9,7 @@
         xmlns:vm="clr-namespace:CIAssessment.ViewModels"
         mc:Ignorable="d"
         x:Name="window"
-        Title="Hierarchical Data Viewer" TextBlock.TextAlignment="Center" VerticalAlignment="Center" ResizeMode="CanResize" SizeToContent="Height" WindowStartupLocation="CenterScreen" Cursor="Arrow" Width="500" Height="600" WindowStyle="ThreeDBorderWindow" Background="AntiqueWhite">
+        Title="Hierarchical Data Viewer" TextBlock.TextAlignment="Center" VerticalAlignment="Center" ResizeMode="CanResize" SizeToContent="Height" WindowStartupLocation="CenterScreen" Cursor="Arrow" Width="500" Height="600" WindowStyle="ThreeDBorderWindow" Background="#FF005DFF" Foreground="#FF005DFF" Margin="5">
     <Window.DataContext>
         <vm:MainWindowViewModel/>
     </Window.DataContext>
@@ -23,13 +23,13 @@
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <StackPanel  Orientation="Horizontal" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Background="AliceBlue">
-            <RadioButton Content="{Binding PartRadioLbl}" HorizontalAlignment="Stretch" Margin="10" IsChecked="{Binding IsPartVisible,Mode=TwoWay}"/>
-            <RadioButton Content="{Binding FileRadioLbl}" HorizontalAlignment="Stretch" Margin="10" IsChecked="{Binding IsFileVisible,Mode=TwoWay}"/>
+            <RadioButton Content="{Binding PartRadioLbl}" HorizontalAlignment="Stretch" Margin="10" IsChecked="{Binding IsPartVisible,Mode=TwoWay}" Background="#FF005DFF" BorderBrush="#FF0E16CB" Foreground="Black" BorderThickness="2" ClipToBounds="True" SnapsToDevicePixels="True"/>
+            <RadioButton Content="{Binding FileRadioLbl}" HorizontalAlignment="Stretch" Margin="10" IsChecked="{Binding IsFileVisible,Mode=TwoWay}" Background="#FF005DFF" BorderBrush="#FF242BD0" Foreground="Black" BorderThickness="2"/>
         </StackPanel>
-        <TabControl x:Name="tabs" ItemsSource="{Binding TabSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Column="0" Grid.Row="1" SelectedItem="{Binding SelectedTab}" Background="Blue">
+        <TabControl x:Name="tabs" ItemsSource="{Binding TabSource,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}" Margin="10" Grid.Column="0" Grid.Row="1" SelectedItem="{Binding SelectedTab}" Background="#FF008BFF" Foreground="#FF005DFF" BorderThickness="5" BorderBrush="Blue" >
             <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Header}"/>
+                <DataTemplate >
+                    <TextBlock Text="{Binding Header}" Background="White" Foreground="Black"/>
                 </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
@@ -142,7 +142,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="2*"/>
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="1" Grid.Row="0" Height="30" Content="Export Json" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{Binding ExportJsonCommand}"/>
+                <Button Grid.Column="1" Grid.Row="0" Height="30" Content="Export Json" VerticalAlignment="Center" HorizontalAlignment="Right" Command="{Binding ExportJsonCommand}" Foreground="White" Background="#FF0042D1" Width="75" Margin="4,4,4,10"/>
             </Grid>
         </StackPanel>
     </Grid>
